@@ -1,16 +1,46 @@
 import fs from "fs";
 
-const measurements = fs
-  .readFileSync("./input.txt", "utf8")
-  .split("\n")
-  .map((m) => parseInt(m));
-
-let counter = 0;
-
-for (let i = 1; i < measurements.length; i++) {
-  if (measurements[i] > measurements[i - 1]) {
-    counter++;
-  }
+function parseInput() {
+  return fs
+    .readFileSync("./dist/input.txt", "utf8")
+    .split("\n")
+    .map((m) => parseInt(m));
 }
 
-console.log(counter);
+function problem1() {
+  const measurements = parseInput();
+
+  let counter = 0;
+
+  for (let i = 1; i < measurements.length; i++) {
+    if (measurements[i] > measurements[i - 1]) {
+      counter++;
+    }
+  }
+
+  console.log(`Day 1 - Problem 1: ${counter}`);
+  return counter;
+}
+
+function problem2() {
+  const measurements = parseInput();
+
+  let counter = -1;
+  let previousCount = 0;
+
+  for (let i = 0; i < measurements.length - 2; i++) {
+    const currentCount =
+      measurements[i] + measurements[i + 1] + measurements[i + 2];
+    if (currentCount > previousCount) counter++;
+    previousCount = currentCount;
+  }
+
+  return counter;
+}
+
+problem1();
+
+export default {
+  problem1,
+  problem2,
+};
