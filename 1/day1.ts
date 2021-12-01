@@ -11,14 +11,12 @@ function problem1() {
   const measurements = parseInput();
 
   let counter = 0;
-
   for (let i = 1; i < measurements.length; i++) {
     if (measurements[i] > measurements[i - 1]) {
       counter++;
     }
   }
 
-  console.log(`Day 1 - Problem 1: ${counter}`);
   return counter;
 }
 
@@ -37,8 +35,6 @@ function problem2() {
 
   return counter;
 }
-
-problem1();
 
 export default {
   problem1,
