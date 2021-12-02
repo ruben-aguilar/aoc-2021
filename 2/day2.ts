@@ -1,7 +1,7 @@
 import fs from "fs";
 type Direction = "forward" | "down" | "up";
 
-type Instruction = {
+type Command = {
   direction: Direction;
   distance: number;
 };
@@ -11,8 +11,8 @@ type Position = {
   depth: number;
 };
 
-function parseInput(): Instruction[] {
-  function parseInstruction(rawInstruction: string): Instruction {
+function parseInput(): Command[] {
+  function parseInstruction(rawInstruction: string): Command {
     return {
       direction: rawInstruction.split(" ")[0] as Direction,
       distance: parseInt(rawInstruction.split(" ")[1]),
@@ -30,20 +30,20 @@ class Submarine {
     depth: 0,
   };
 
-  public exec = (instruction: Instruction) => {
-    switch (instruction.direction) {
+  public exec = (command: Command) => {
+    switch (command.direction) {
       case "forward":
-        this.position.horizontalPosition += instruction.distance;
+        this.position.horizontalPosition += command.distance;
         break;
       case "down":
-        this.position.depth += instruction.distance;
+        this.position.depth += command.distance;
         break;
       case "up":
-        this.position.depth -= instruction.distance;
+        this.position.depth -= command.distance;
     }
   };
 
-  public currentPosition(): Position {
+  public getCurrentPosition(): Position {
     return { ...this.position };
   }
 }
@@ -51,38 +51,38 @@ class Submarine {
 class SubmarineV2 extends Submarine {
   protected aim = 0;
 
-  public exec = (instruction: Instruction) => {
-    switch (instruction.direction) {
+  public exec = (command: Command) => {
+    switch (command.direction) {
       case "forward":
-        this.position.horizontalPosition += instruction.distance;
-        this.position.depth += instruction.distance * this.aim;
+        this.position.horizontalPosition += command.distance;
+        this.position.depth += command.distance * this.aim;
         break;
       case "down":
-        this.aim += instruction.distance;
+        this.aim += command.distance;
         break;
       case "up":
-        this.aim -= instruction.distance;
+        this.aim -= command.distance;
     }
   };
 }
 
 function problem1() {
-  const instructions = parseInput();
+  const commands = parseInput();
   const submarine = new Submarine();
 
-  instructions.forEach(submarine.exec);
+  commands.forEach(submarine.exec);
 
-  const finalPosition = submarine.currentPosition();
+  const finalPosition = submarine.getCurrentPosition();
   return finalPosition.horizontalPosition * finalPosition.depth;
 }
 
 function problem2() {
-  const instructions = parseInput();
+  const commands = parseInput();
   const submarine = new SubmarineV2();
 
-  instructions.forEach(submarine.exec);
+  commands.forEach(submarine.exec);
 
-  const finalPosition = submarine.currentPosition();
+  const finalPosition = submarine.getCurrentPosition();
   return finalPosition.horizontalPosition * finalPosition.depth;
 }
 
