@@ -33,3 +33,50 @@ For **Part 2** I tried to use a functional approach, based on `slice` and some `
     previousCount = currentCount;
   }
 ```
+
+## Day 2
+I finished this one pretty quickly, so I decided to refactor it a bit and use some Object Oriented Programming (I haven't used that much in TS). I think I overengineered the solution a bit, but I'm happy with the result.
+
+I tried to map all the domain concepts to types (I love TS type system 😍).
+
+I created a `Submarine` class that holds the state and the logic of the submarine, the interface would be:
+
+```typescript
+interface Submarine {
+  exec: (command: Instruction) => void;
+  getCurrentPosition: () => Position;
+}
+```
+I used a simple switch statement to implement the movement logic, a bit simple, but it does it job and it's easy to understand, so for version 1: 
+```typescript
+switch (command.direction) {
+      case "forward":
+        this.position.horizontalPosition += command.distance;
+        break;
+      case "down":
+        this.position.depth += command.distance;
+        break;
+      case "up":
+        this.position.depth -= command.distance;
+    }
+```
+
+And for the second problem, I only had to create a class called `SubmarineV2` inheriting from `Submarine`, add a new `aim` state, and rewrite the `exec` method:
+```typescript
+switch (command.direction) {
+      case "forward":
+        this.position.horizontalPosition += command.distance;
+        this.position.depth += command.distance * this.aim;
+        break;
+      case "down":
+        this.aim += command.distance;
+        break;
+      case "up":
+        this.aim -= command.distance;
+    }
+```
+
+This way executing the commands is very easy with a simple `forEach` loop: 
+```typescript
+commands.forEach(submarine.exec);
+```
