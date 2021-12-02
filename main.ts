@@ -12,8 +12,11 @@ describe("Advent of code", () => {
   });
 
   describe("Day 2", () => {
-    it("Problem 1: ?", () => {
-      expect(day2.problem1()).toBe("?");
+    it("Problem 1: 1654760", () => {
+      expect(day2.problem1()).toBe(1654760);
+    });
+    it("Problem 2: 1956047400", () => {
+      expect(day2.problem2()).toBe(1956047400);
     });
   });
 });

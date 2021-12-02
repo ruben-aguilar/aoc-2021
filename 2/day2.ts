@@ -46,10 +46,36 @@ function problem1() {
     }
   }
 
-  console.log(coords);
+  return coords.horizontalPosition * coords.depth;
+}
+
+function problem2() {
+  const instructions = parseInput();
+
+  const coords = {
+    horizontalPosition: 0,
+    depth: 0,
+  };
+  let aim = 0;
+
+  for (let instruction of instructions) {
+    switch (instruction.direction) {
+      case "forward":
+        coords.horizontalPosition += instruction.distance;
+        coords.depth += instruction.distance * aim;
+        break;
+      case "down":
+        aim += instruction.distance;
+        break;
+      case "up":
+        aim -= instruction.distance;
+    }
+  }
+
   return coords.horizontalPosition * coords.depth;
 }
 
 export default {
   problem1,
+  problem2,
 };
