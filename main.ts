@@ -35,5 +35,8 @@ describe("Advent of code", () => {
     it("Problem 1: 10374", () => {
       expect(day4.problem1()).toBe(10374);
     });
+    it("Problem 2: 24742", () => {
+      expect(day4.problem2()).toBe(24742);
+    });
   });
 });

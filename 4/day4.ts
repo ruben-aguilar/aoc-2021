@@ -18,6 +18,23 @@ function problem1() {
   }
 }
 
+function problem2() {
+  const input = parseInput();
+
+  let notCompletedBoards = input.boards;
+
+  for (let ball of input.balls) {
+    for (let board of notCompletedBoards) {
+      board.play(ball);
+      const isLastBoard = notCompletedBoards.length === 1;
+      if (isLastBoard && board.bingo()) {
+        return board.unmarkedSum() * ball;
+      }
+    }
+    notCompletedBoards = notCompletedBoards.filter((b) => !b.bingo());
+  }
+}
+
 function parseInput(useExample?: boolean): Input {
   const file = useExample
     ? "./dist/inputDay4Example.txt"
@@ -59,4 +76,5 @@ function parseBoards(input: string) {
 
 export default {
   problem1,
+  problem2,
 };

@@ -20,7 +20,7 @@ describe("BingoBoard should", () => {
   });
 
   it("win with a column", () => {
-    const play = [1, 6, 11, 16, 21];
+    const play = [3, 8, 13, 18, 23];
 
     const board = new BingoBoard(initialBoard);
     for (let ball of play) {

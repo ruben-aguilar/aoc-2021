@@ -59,8 +59,8 @@ class BingoBoard {
   private checkColumns(): number {
     for (let i = 0; i < this.board.length; i++) {
       if (this.board.filter((r) => !r[i].marked).length === 0) return i;
-      return -1;
     }
+    return -1;
   }
 }
 
