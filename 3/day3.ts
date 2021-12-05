@@ -22,11 +22,7 @@ function problem1() {
   let gammaRate = "";
 
   for (let i = 0; i < diagnosticLines[0].length; i++) {
-    let numberOfZeros = 0;
-    let numberOfOnes = 0;
-    for (let row of diagnosticLines) {
-      row[i] === "0" ? numberOfZeros++ : numberOfOnes++;
-    }
+    const [numberOfZeros, numberOfOnes] = countOccurrences(diagnosticLines, i);
     numberOfZeros > numberOfOnes ? (gammaRate += "0") : (gammaRate += "1");
   }
 
@@ -37,58 +33,46 @@ function problem1() {
   return toDecimalNumber(gammaRate) * toDecimalNumber(epsilonRate);
 }
 
-function findMostCommon(lines: string[], index: number): string {
+function countOccurrences(lines: string[], index: number): [number, number] {
   let numberOfOnes = 0;
   let numberOfZeros = 0;
 
-  for (let row of lines) {
-    row[index] === "0" ? numberOfZeros++ : numberOfOnes++;
+  for (let line of lines) {
+    line[index] === "0" ? numberOfZeros++ : numberOfOnes++;
   }
+
+  return [numberOfZeros, numberOfOnes];
+}
+
+function oxygenStrategy(lines: string[], index: number): string {
+  const [numberOfZeros, numberOfOnes] = countOccurrences(lines, index);
 
   return numberOfOnes >= numberOfZeros ? "1" : "0";
 }
 
-function findLessCommon(lines: string[], index: number): string {
-  let numberOfOnes = 0;
-  let numberOfZeros = 0;
-
-  for (let row of lines) {
-    row[index] === "0" ? numberOfZeros++ : numberOfOnes++;
-  }
+function co2ScrubberStrategy(lines: string[], index: number): string {
+  const [numberOfZeros, numberOfOnes] = countOccurrences(lines, index);
 
   return numberOfZeros <= numberOfOnes ? "0" : "1";
 }
 
-function getOxygenGeneratorRating(diagnosticLines: string[]) {
-  for (let i = 0; i < diagnosticLines[0].length; i++) {
-    if (diagnosticLines.length === 1) break;
-    diagnosticLines = diagnosticLines.filter(
-      (l) => l[i] === findMostCommon(diagnosticLines, i)
-    );
+function getRating(
+  lines: string[],
+  strategy: (lines: string[], index: number) => string
+): number {
+  for (let i = 0; i < lines[0].length; i++) {
+    if (lines.length === 1) break;
+    lines = lines.filter((l) => l[i] === strategy(lines, i));
   }
 
-  return toDecimalNumber(diagnosticLines[0]);
-}
-
-function getCo2ScrubberRating(diagnosticLines: string[]) {
-  for (let i = 0; i < diagnosticLines[0].length; i++) {
-    if (diagnosticLines.length === 1) break;
-    diagnosticLines = diagnosticLines.filter(
-      (l) => l[i] === findLessCommon(diagnosticLines, i)
-    );
-  }
-
-  return toDecimalNumber(diagnosticLines[0]);
+  return toDecimalNumber(lines[0]);
 }
 
 function problem2() {
   let diagnosticLines = parseInput();
 
-  const oxigenGeneratorRating = getOxygenGeneratorRating(diagnosticLines);
-  const co2ScrubberRating = getCo2ScrubberRating(diagnosticLines);
-
-  console.log(oxigenGeneratorRating);
-  console.log(co2ScrubberRating);
+  const oxigenGeneratorRating = getRating(diagnosticLines, oxygenStrategy);
+  const co2ScrubberRating = getRating(diagnosticLines, co2ScrubberStrategy);
 
   return oxigenGeneratorRating * co2ScrubberRating;
 }
