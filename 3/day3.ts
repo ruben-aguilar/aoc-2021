@@ -1,15 +1,5 @@
 import fs from "fs";
 
-function parseInput(useExample?: boolean) {
-  if (useExample)
-    return fs.readFileSync("./dist/inputDay3Example.txt", "utf8").split("\n");
-  return fs.readFileSync("./dist/inputDay3.txt", "utf8").split("\n");
-}
-
-function toDecimalNumber(binaryNumber: string) {
-  return parseInt(binaryNumber, 2);
-}
-
 function problem1() {
   const diagnosticLines = parseInput();
 
@@ -20,11 +10,32 @@ function problem1() {
     numberOfZeros > numberOfOnes ? (gammaRate += "0") : (gammaRate += "1");
   }
 
-  const epsilonRate = [...gammaRate]
-    .map((n) => (n === "0" ? "1" : "0"))
-    .join("");
+  const epsilonRate = invertBinaryString(gammaRate);
 
   return toDecimalNumber(gammaRate) * toDecimalNumber(epsilonRate);
+}
+
+function problem2() {
+  let diagnosticLines = parseInput();
+
+  const oxigenGeneratorRating = getRating(diagnosticLines, oxygenStrategy);
+  const co2ScrubberRating = getRating(diagnosticLines, co2ScrubberStrategy);
+
+  return oxigenGeneratorRating * co2ScrubberRating;
+}
+
+function parseInput(useExample?: boolean) {
+  if (useExample)
+    return fs.readFileSync("./dist/inputDay3Example.txt", "utf8").split("\n");
+  return fs.readFileSync("./dist/inputDay3.txt", "utf8").split("\n");
+}
+
+function toDecimalNumber(binaryNumber: string) {
+  return parseInt(binaryNumber, 2);
+}
+
+function invertBinaryString(binaryString: string) {
+  return [...binaryString].map((n) => (n === "0" ? "1" : "0")).join("");
 }
 
 function countOccurrences(lines: string[], index: number): [number, number] {
@@ -60,15 +71,6 @@ function getRating(
   }
 
   return toDecimalNumber(lines[0]);
-}
-
-function problem2() {
-  let diagnosticLines = parseInput();
-
-  const oxigenGeneratorRating = getRating(diagnosticLines, oxygenStrategy);
-  const co2ScrubberRating = getRating(diagnosticLines, co2ScrubberStrategy);
-
-  return oxigenGeneratorRating * co2ScrubberRating;
 }
 
 export default {
