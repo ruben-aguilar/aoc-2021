@@ -7,13 +7,7 @@ function parseInput(useExample?: boolean) {
 }
 
 function toDecimalNumber(binaryNumber: string) {
-  let result = 0;
-  const reversed = [...binaryNumber].reverse();
-  for (let i = 0; i < reversed.length; i++) {
-    result += parseInt(reversed[i]) * Math.pow(2, i);
-  }
-
-  return result;
+  return parseInt(binaryNumber, 2);
 }
 
 function problem1() {
