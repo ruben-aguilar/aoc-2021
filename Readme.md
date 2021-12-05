@@ -80,3 +80,63 @@ This way executing the commands is very easy with a simple `forEach` loop:
 ```typescript
 commands.forEach(submarine.exec);
 ```
+
+## Day 3
+This one was more complex and I ended up with some clutered code, that I refactored later to a solution based on strategies. 
+
+The first problem was not very complex, and I created a method to transform from a binary number in a string to a decimal number (I decided not to use external  libraries for this AOC challenge):
+
+``` typescript
+function toDecimalNumber(binaryNumber: string) {
+  let result = 0;
+  const reversed = [...binaryNumber].reverse();
+  for (let i = 0; i < reversed.length; i++) {
+    result += parseInt(reversed[i]) * Math.pow(2, i);
+  }
+
+  return result;
+}
+```
+but then I realized there is an easy way to do it natively in javascript:
+``` typescript
+function toDecimalNumber(binaryNumber: string) {
+  return parseInt(binaryNumber, 2);
+}
+```
+
+For the second one, I decided to go straightforward to the solution, without worrying too much about the code, I'll refactor it later when I have more knowledge about the problem. The final result can be seen in the commit `db86153`. 
+
+After some refactors I reduced duplication and created a couple of strategies to deal with the different ways of calculating a rating: 
+
+```typescript
+function oxygenStrategy(lines: string[], index: number): string {
+  const [numberOfZeros, numberOfOnes] = countOccurrences(lines, index);
+
+  return numberOfOnes >= numberOfZeros ? "1" : "0";
+}
+
+function co2ScrubberStrategy(lines: string[], index: number): string {
+  const [numberOfZeros, numberOfOnes] = countOccurrences(lines, index);
+
+  return numberOfZeros <= numberOfOnes ? "0" : "1";
+}
+```
+
+With this approach, calculating a rating is very understandable: 
+```typescript
+function getRating(
+  lines: string[],
+  strategy: (lines: string[], index: number) => string
+): number {
+  for (let i = 0; i < lines[0].length; i++) {
+    if (lines.length === 1) break;
+    lines = lines.filter((l) => l[i] === strategy(lines, i));
+  }
+
+  return toDecimalNumber(lines[0]);
+}
+```
+
+I'm pretty happy with the final solution, but my intuition tells me that there should be a more elegant solution... but I couldn't find it 🤷‍♀️
+
+
