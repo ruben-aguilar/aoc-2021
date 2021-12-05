@@ -139,4 +139,11 @@ function getRating(
 
 I'm pretty happy with the final solution, but my intuition tells me that there should be a more elegant solution... but I couldn't find it 🤷‍♀️
 
+## Day 4
+Today I used an OOP oriented approach to solve the problem, I created the `BingoBoard` class and tested in isolation, before going for the problem. There are a lot of of for loops there, but I think it's a good way to go.
+
+Today's input parsing was a bit more difficult, I have assumed that boards are always 5x5 which simplifies the task a bit.
+
+Thanks to implementing the board in it's own class, the second part of the exercise was very easy!!
+
 
