@@ -1,6 +1,7 @@
 import day1 from "./1/day1";
 import day2 from "./2/day2";
 import day3 from "./3/day3";
+import day4 from "./4/day4";
 
 describe("Advent of code", () => {
   describe("Day 1", () => {
@@ -27,6 +28,12 @@ describe("Advent of code", () => {
     });
     it("Problem 1: 4790390", () => {
       expect(day3.problem2()).toBe(4790390);
+    });
+  });
+
+  describe("Day 4", () => {
+    it("Problem 1: 10374", () => {
+      expect(day4.problem1()).toBe(10374);
     });
   });
 });
