@@ -37,8 +37,60 @@ function problem1() {
   return toDecimalNumber(gammaRate) * toDecimalNumber(epsilonRate);
 }
 
+function findMostCommon(lines: string[], index: number): string {
+  let numberOfOnes = 0;
+  let numberOfZeros = 0;
+
+  for (let row of lines) {
+    row[index] === "0" ? numberOfZeros++ : numberOfOnes++;
+  }
+
+  return numberOfOnes >= numberOfZeros ? "1" : "0";
+}
+
+function findLessCommon(lines: string[], index: number): string {
+  let numberOfOnes = 0;
+  let numberOfZeros = 0;
+
+  for (let row of lines) {
+    row[index] === "0" ? numberOfZeros++ : numberOfOnes++;
+  }
+
+  return numberOfZeros <= numberOfOnes ? "0" : "1";
+}
+
+function getOxygenGeneratorRating(diagnosticLines: string[]) {
+  for (let i = 0; i < diagnosticLines[0].length; i++) {
+    if (diagnosticLines.length === 1) break;
+    diagnosticLines = diagnosticLines.filter(
+      (l) => l[i] === findMostCommon(diagnosticLines, i)
+    );
+  }
+
+  return toDecimalNumber(diagnosticLines[0]);
+}
+
+function getCo2ScrubberRating(diagnosticLines: string[]) {
+  for (let i = 0; i < diagnosticLines[0].length; i++) {
+    if (diagnosticLines.length === 1) break;
+    diagnosticLines = diagnosticLines.filter(
+      (l) => l[i] === findLessCommon(diagnosticLines, i)
+    );
+  }
+
+  return toDecimalNumber(diagnosticLines[0]);
+}
+
 function problem2() {
-  return 0;
+  let diagnosticLines = parseInput();
+
+  const oxigenGeneratorRating = getOxygenGeneratorRating(diagnosticLines);
+  const co2ScrubberRating = getCo2ScrubberRating(diagnosticLines);
+
+  console.log(oxigenGeneratorRating);
+  console.log(co2ScrubberRating);
+
+  return oxigenGeneratorRating * co2ScrubberRating;
 }
 
 export default {
